@@ -107,6 +107,29 @@ Resources:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
 
+  # DynamoDB table test composite key. Note need use DependsOn reference so tables are created in order
+  AuthorizerTable:
+    Type: AWS::DynamoDB::Table
+    DependsOn: "SampleTable"
+    Properties:
+      AttributeDefinitions:
+        -
+          AttributeName: "id"
+          AttributeType: "S"
+        -
+          AttributeName: "state"
+          AttributeType: "S"
+      KeySchema:
+        -
+          AttributeName: "id"
+          KeyType: "HASH"
+        -
+          AttributeName: "state"
+          KeyType: "RANGE"
+      ProvisionedThroughput:
+        ReadCapacityUnits: "1"
+        WriteCapacityUnits: "1"
+
 Outputs:
   WebEndpoint:
     Description: "API Gateway endpoint URL for Prod stage"
